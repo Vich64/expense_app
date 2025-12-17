@@ -1,42 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../models/expense.dart';
 
-class ExpensesView extends StatefulWidget {
-  const ExpensesView({super.key});
-
-  @override
-  State<ExpensesView> createState() {
-    return _ExpensesViewState();
-  }
-}
-
-class _ExpensesViewState extends State<ExpensesView> {
-  final List<Expense> _expenses = [
-    Expense(
-      title: 'Flutter Course',
-      amount: 19.99,
-      date: DateTime.now(),
-      category: Category.work,
-    ),
-    Expense(
-      title: 'Cinema',
-      amount: 15.69,
-      date: DateTime.now(),
-      category: Category.leisure,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _expenses.length,
-      itemBuilder: (context, index) => ExpenseItem(expense: _expenses[index]),
-    );
-  }
-}
-
 class ExpenseItem extends StatelessWidget {
-  const ExpenseItem({super.key, required this.expense});
+  ExpenseItem({super.key, required this.expense});
 
   final Expense expense;
 
@@ -53,9 +20,10 @@ class ExpenseItem extends StatelessWidget {
     }
   }
 
-  String get expenseDate {
-    return "11/54/25";
-  }
+  final formatter = DateFormat.yMd();
+
+  String get expenseDate =>
+      formatter.format(expense.date); // We format the date DD/MM/YYYY
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +41,7 @@ class ExpenseItem extends StatelessWidget {
                     expense.title,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text("${expense.amount.toStringAsPrecision(2)} \$"),
+                  Text("${expense.amount.toStringAsFixed(2)} \$"),
                 ],
               ),
               Spacer(),
